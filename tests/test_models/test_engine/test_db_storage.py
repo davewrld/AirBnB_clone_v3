@@ -86,3 +86,52 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
+
+    def test_get(self):
+        """Test getting a User"""
+        user = self.storage.get(User, 'user1')
+        self.assertEqual(user.id, 'user1')
+        self.assertEqual(user.name, 'user1')
+
+        """Test getting a State"""
+        state = self.storage.get(State, 'state1')
+        self.assertEqual(state.id, 'state1')
+        self.assertEqual(state.name, 'state1')
+
+        """Test getting a City"""
+        city = self.storage.get(City, 'city1')
+        self.assertEqual(city.id, 'city1')
+        self.assertEqual(city.name, 'city1')
+
+        """Test getting an Amenity"""
+        amenity = self.storage.get(Amenity, 'amenity1')
+        self.assertEqual(amenity.id, 'amenity1')
+        self.assertEqual(amenity.name, 'amenity1')
+
+        """Test getting a Place"""
+        place = self.storage.get(Place, 'place1')
+        self.assertEqual(place.id, 'place1')
+        self.assertEqual(place.name, 'place1')
+
+        """Test getting a Review"""
+        review = self.storage.get(Review, 'review1')
+        self.assertEqual(review.id, 'review1')
+        self.assertEqual(review.text, 'review1')
+
+        """Test getting a non-existent object"""
+        self.assertIsNone(self.storage.get(User, 'non_existent'))
+
+    def test_count(self):
+        """Test counting all objects"""
+        self.assertEqual(self.storage.count(), 12)
+
+        """Test counting objects of a specific class"""
+        self.assertEqual(self.storage.count(User), 2)
+        self.assertEqual(self.storage.count(State), 2)
+        self.assertEqual(self.storage.count(City), 2)
+        self.assertEqual(self.storage.count(Amenity), 2)
+        self.assertEqual(self.storage.count(Place), 2)
+        self.assertEqual(self.storage.count(Review), 2)
+
+        """Test counting objects of a non-existent class"""
+        self.assertEqual(self.storage.count(Mock), 0)
